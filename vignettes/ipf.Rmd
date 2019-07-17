@@ -3,6 +3,7 @@ title: "Iterative Proportional Fitting"
 output: rmarkdown::html_vignette
 author:
   - Gregor de Cillia
+  
 vignette: >
   %\VignetteIndexEntry{Iterative Proportional Fitting}
   %\VignetteEngine{knitr::rmarkdown}
@@ -29,9 +30,12 @@ We assign a weight of one for all observations of the population and a weight of
 ```{r setup}
 library(surveysd)
 population <- demo.eusilc(2, prettyNames = TRUE)
-population[, pWeight := 1]
-pop_sample <- population[sample(1:.N, floor(.N*0.10)), ]
-pop_sample[, pWeight := 10]
+
+population$pWeight <- 1
+sample <- sample(x = 1 : nrow(population), size = nrow(population) * 0.10, replace = FALSE)
+pop_sample <- population[sample]
+pop_sample$pWeight <- 10
+
 ```
 
 ## One constraint, one variable
